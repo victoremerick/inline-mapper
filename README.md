@@ -11,6 +11,7 @@ Inline Mapper provides annotation-based mapping between fixed-width positional l
 - **Annotation-based Mapping**: Use `@LineEntity` and `@Column` annotations to define mappings
 - **Bidirectional**: Parse lines to objects and serialize objects back to lines
 - **Type Conversion**: Built-in support for String, Integer, Long, Double, and Boolean types
+- **File-level Layouts**: Describe full files with `@FileLayout` and `@FileSegment` or via `FileLayout.builder()`, including single lines, fixed ranges, wildcards, and negative indices from file end
 - **Extensible**: Create custom type converters for domain-specific types
 - **Lightweight**: Minimal dependencies for easy integration
 - **Error Handling**: Clear exceptions with detailed error messages
@@ -131,24 +132,25 @@ class Record {
 Create converters for domain-specific types by extending `AbstractTypeConverter`:
 
 ```java
-import com.example.inlinemapper.converter.AbstractTypeConverter;
+import converter.com.emerick.inlinemapper.AbstractTypeConverter;
+
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
 public class YearMonthConverter extends AbstractTypeConverter<YearMonth> {
-    private static final DateTimeFormatter FORMATTER = 
-        DateTimeFormatter.ofPattern("yyyyMM");
-    
-    @Override
-    public YearMonth fromString(String value) throws Exception {
-        String trimmed = safeTrim(value);
-        return trimmed != null ? YearMonth.parse(trimmed, FORMATTER) : null;
-    }
+   private static final DateTimeFormatter FORMATTER =
+           DateTimeFormatter.ofPattern("yyyyMM");
 
-    @Override
-    public Class<YearMonth> getType() {
-        return YearMonth.class;
-    }
+   @Override
+   public YearMonth fromString(String value) throws Exception {
+      String trimmed = safeTrim(value);
+      return trimmed != null ? YearMonth.parse(trimmed, FORMATTER) : null;
+   }
+
+   @Override
+   public Class<YearMonth> getType() {
+      return YearMonth.class;
+   }
 }
 ```
 
@@ -221,53 +223,104 @@ TypeConverterRegistry registry = new TypeConverterRegistry();
 registry.register(CountryCode.class, new EnumConverter<>(CountryCode.class));
 ```
 
+### File-Level Layouts (Multiple Lines)
+
+Describe an entire file with annotations or builder syntax, supporting ranges, wildcards, and negative indices (from the end):
+
+```java
+import annotation.com.emerick.inlinemapper.FileLayout;
+import annotation.com.emerick.inlinemapper.FileSegment;
+import mapper.com.emerick.inlinemapper.FileLayoutBuilder;
+import mapper.com.emerick.inlinemapper.FileMapper;
+import mapper.com.emerick.inlinemapper.FileMappingResult;
+
+@FileLayout
+class MyFileLayout {
+   @FileSegment(position = 1)
+   HeaderLine header;
+   @FileSegment(position = 2)
+   InfoLine info;
+   @FileSegment(wildcard = true)
+   java.util.List<DetailLine> details; // consumes lines until next anchored segment
+   @FileSegment(position = -2)
+   TrailerLine trailer;        // second-to-last line
+   @FileSegment(position = -1)
+   FooterLine footer;          // last line
+}
+
+FileMapper mapper = new FileMapper(FileLayoutBuilder.fromAnnotations(MyFileLayout.class));
+FileMappingResult result = mapper.map(lines);
+HeaderLine header = result.getSingle("header", HeaderLine.class);
+java.util.List<DetailLine> detailLines = result.getList("details", DetailLine.class);
+```
+
+Or build programmatically:
+
+```java
+import mapper.com.emerick.inlinemapper.FileLayout;
+import mapper.com.emerick.inlinemapper.FileMapper;
+import mapper.com.emerick.inlinemapper.FileMappingResult;
+
+FileLayout layout = FileLayout.builder()
+        .line("header", 1, HeaderLine.class)
+        .line("info", 2, InfoLine.class)
+        .wildcard("details", DetailLine.class) // variable-length section
+        .line("trailer", -2, TrailerLine.class)
+        .line("footer", -1, FooterLine.class)
+        .build();
+
+FileMapper mapper = new FileMapper(layout);
+FileMappingResult result = mapper.map(lines);
+```
+
 ## Quick Start
 
 ### Define a Mapped Entity
 
 ```java
-import com.example.inlinemapper.annotation.LineEntity;
-import com.example.inlinemapper.annotation.Column;
+import annotation.com.emerick.inlinemapper.LineEntity;
+import annotation.com.emerick.inlinemapper.Column;
 
 @LineEntity
 public class Person {
-    @Column(position = 0, length = 10)
-    public String name;
+   @Column(position = 0, length = 10)
+   public String name;
 
-    @Column(position = 10, length = 3)
-    public Integer age;
+   @Column(position = 10, length = 3)
+   public Integer age;
 
-    @Column(position = 13, length = 20)
-    public String email;
+   @Column(position = 13, length = 20)
+   public String email;
 
-    public Person() {}
+   public Person() {
+   }
 
-    public Person(String name, Integer age, String email) {
-        this.name = name;
-        this.age = age;
-        this.email = email;
-    }
+   public Person(String name, Integer age, String email) {
+      this.name = name;
+      this.age = age;
+      this.email = email;
+   }
 }
 ```
 
 ### Parse Lines to Objects
 
 ```java
-import com.example.inlinemapper.mapper.LineMapper;
-import com.example.inlinemapper.mapper.PositionalLineMapper;
+import mapper.com.emerick.inlinemapper.LineMapper;
+import mapper.com.emerick.inlinemapper.PositionalLineMapper;
 
 public class Example {
-    public static void main(String[] args) {
-        LineMapper<Person> mapper = new PositionalLineMapper<>(Person.class);
-        
-        // Parse a fixed-width line
-        String line = "John      25 john@example.com     ";
-        Person person = mapper.toObject(line);
-        
-        System.out.println(person.name);  // John
-        System.out.println(person.age);   // 25
-        System.out.println(person.email); // john@example.com
-    }
+   public static void main(String[] args) {
+      LineMapper<Person> mapper = new PositionalLineMapper<>(Person.class);
+
+      // Parse a fixed-width line
+      String line = "John      25 john@example.com     ";
+      Person person = mapper.toObject(line);
+
+      System.out.println(person.name);  // John
+      System.out.println(person.age);   // 25
+      System.out.println(person.email); // john@example.com
+   }
 }
 ```
 
