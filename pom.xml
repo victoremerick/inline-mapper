@@ -5,9 +5,9 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
+    <groupId>com.emerick</groupId>
     <artifactId>inline-mapper</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <name>Inline Mapper</name>
@@ -25,16 +25,16 @@
     <developers>
         <developer>
             <id>dev1</id>
-            <name>Your Name</name>
-            <email>your.email@example.com</email>
-            <url>https://github.com/yourusername</url>
+            <name>Victor Emerick</name>
+            <email>emerick_machado@hotmail.com</email>
+            <url>https://github.com/victoremerick</url>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/yourusername/inline-mapper.git</connection>
-        <developerConnection>scm:git:https://github.com/yourusername/inline-mapper.git</developerConnection>
-        <url>https://github.com/yourusername/inline-mapper</url>
+        <connection>scm:git:https://github.com/victoremerick/inline-mapper.git</connection>
+        <developerConnection>scm:git:https://github.com/victoremerick/inline-mapper.git</developerConnection>
+        <url>https://github.com/victoremerick/inline-mapper</url>
     </scm>
 
     <distributionManagement>

@@ -241,7 +241,7 @@ class MyFileLayout {
    @FileSegment(position = 2)
    InfoLine info;
    @FileSegment(wildcard = true)
-   java.util.List<DetailLine> details; // consumes lines until next anchored segment
+   List<DetailLine> details; // consumes lines until next anchored segment
    @FileSegment(position = -2)
    TrailerLine trailer;        // second-to-last line
    @FileSegment(position = -1)
@@ -251,7 +251,7 @@ class MyFileLayout {
 FileMapper mapper = new FileMapper(FileLayoutBuilder.fromAnnotations(MyFileLayout.class));
 FileMappingResult result = mapper.map(lines);
 HeaderLine header = result.getSingle("header", HeaderLine.class);
-java.util.List<DetailLine> detailLines = result.getList("details", DetailLine.class);
+List<DetailLine> detailLines = result.getList("details", DetailLine.class);
 ```
 
 Or build programmatically:
