@@ -5,7 +5,6 @@ import com.emerick.inlinemapper.annotation.LineEntity;
 import com.emerick.inlinemapper.converter.EnumConverter;
 import com.emerick.inlinemapper.converter.LocalDateConverter;
 import com.emerick.inlinemapper.converter.TypeConverterRegistry;
-import com.example.inlinemapper.converter.*;
 import org.junit.Before;
 import org.junit.Test;
 
