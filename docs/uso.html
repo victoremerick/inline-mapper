@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Como usar o Inline Mapper</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; line-height: 1.6; color: #1f2933; }
+    a { color: #0b6efd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    nav a { margin-right: 12px; }
+    code, pre { background: #f5f7fa; padding: 2px 4px; border-radius: 4px; font-family: Consolas, "Courier New", monospace; }
+    pre { padding: 12px; overflow-x: auto; }
+    h1, h2, h3 { color: #0f172a; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="uso.html">Como usar</a>
+    <a href="pom.html">Instalar via pom</a>
+    <a href="faq.html">Perguntas e respostas</a>
+  </nav>
+
+  <h1>Como usar o Inline Mapper</h1>
+  <p>Fluxo essencial para mapear linhas e arquivos com Java 11+.</p>
+
+  <h2>Fluxo essencial em 3 passos</h2>
+  <ol>
+    <li>Anote a classe com <code>@LineEntity</code> e campos com <code>@Column</code> definindo posição (0-based) e tamanho fixo.</li>
+    <li>Crie o mapper com <code>PositionalLineMapper</code> (opcionalmente passando um <code>TypeConverterRegistry</code>).</li>
+    <li>Converta de/para linhas com <code>toObject</code> ou <code>toLine</code>.</li>
+  </ol>
+
+<pre><code class="language-java">import annotation.com.emerick.inlinemapper.LineEntity;
+import annotation.com.emerick.inlinemapper.Column;
+import mapper.com.emerick.inlinemapper.LineMapper;
+import mapper.com.emerick.inlinemapper.PositionalLineMapper;
+
+@LineEntity
+public class Person {
+    @Column(position = 0, length = 10)
+    public String name;
+
+    @Column(position = 10, length = 3)
+    public Integer age;
+
+    @Column(position = 13, length = 20)
+    public String email;
+}
+
+LineMapper&lt;Person&gt; mapper = new PositionalLineMapper&lt;&gt;(Person.class);
+Person p = mapper.toObject("John      025john@example.com   ");
+String line = mapper.toLine(p);
+</code></pre>
+
+  <h2>Trabalhando com coleções de linhas</h2>
+<pre><code class="language-java">List&lt;String&gt; lines = List.of(
+    "John      025john@example.com   ",
+    "Jane      030jane@example.com   "
+);
+List&lt;Person&gt; people = mapper.toObjects(lines);
+List&lt;String&gt; out = mapper.toLines(people);
+</code></pre>
+
+  <h2>Mapeando arquivos completos</h2>
+  <p>Use <code>@FileLayout</code> e <code>@FileSegment</code> ou o builder para descrever posições absolutas, curingas e índices negativos (a partir do fim do arquivo).</p>
+<pre><code class="language-java">import annotation.com.emerick.inlinemapper.FileLayout;
+import annotation.com.emerick.inlinemapper.FileSegment;
+import mapper.com.emerick.inlinemapper.FileLayoutBuilder;
+import mapper.com.emerick.inlinemapper.FileMapper;
+import mapper.com.emerick.inlinemapper.FileMappingResult;
+
+@FileLayout
+class MyFileLayout {
+    @FileSegment(position = 1) HeaderLine header;
+    @FileSegment(wildcard = true) List&lt;DetailLine&gt; details;
+    @FileSegment(position = -1) TrailerLine trailer;
+}
+
+FileMapper fileMapper = new FileMapper(FileLayoutBuilder.fromAnnotations(MyFileLayout.class));
+FileMappingResult result = fileMapper.map(lines);
+HeaderLine header = result.getSingle("header", HeaderLine.class);
+List&lt;DetailLine&gt; detailLines = result.getList("details", DetailLine.class);
+</code></pre>
+
+  <h2>Converters personalizados</h2>
+  <p>Implemente <code>AbstractTypeConverter&lt;T&gt;</code> para tipos de domínio (ex.: datas em formatos próprios, moedas, identificadores).</p>
+<pre><code class="language-java">import converter.com.emerick.inlinemapper.AbstractTypeConverter;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+
+public class YearMonthConverter extends AbstractTypeConverter&lt;YearMonth&gt; {
+    private static final DateTimeFormatter F = DateTimeFormatter.ofPattern("yyyyMM");
+
+    @Override
+    public YearMonth fromString(String value) throws Exception {
+        String trimmed = safeTrim(value);
+        return trimmed != null ? YearMonth.parse(trimmed, F) : null;
+    }
+
+    @Override
+    public Class&lt;YearMonth&gt; getType() { return YearMonth.class; }
+}
+
+TypeConverterRegistry registry = new TypeConverterRegistry();
+registry.register(new YearMonthConverter());
+LineMapper&lt;MyEntity&gt; mapper = new PositionalLineMapper&lt;&gt;(MyEntity.class, registry);
+</code></pre>
+
+  <h2>Boas práticas rápidas</h2>
+  <ul>
+    <li>Defina comprimentos coerentes com o arquivo; sobrescreva com zeros ou espaços quando necessário.</li>
+    <li>Use <code>defaultValue</code> em <code>@Column</code> para preencher colunas vazias sem lógica extra.</li>
+    <li>Ative <code>trim</code> (default) para evitar falhas por espaços em branco; desative quando o espaço fizer parte do valor.</li>
+    <li>Separe conversores em classes reutilizáveis e registre-os em um único <code>TypeConverterRegistry</code>.</li>
+    <li>Em arquivos longos, prefira o builder de layout para leitura mais declarativa.</li>
+  </ul>
+</body>
+</html>

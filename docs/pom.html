@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instalar via pom</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; line-height: 1.6; color: #1f2933; }
+    a { color: #0b6efd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    nav a { margin-right: 12px; }
+    code, pre { background: #f5f7fa; padding: 2px 4px; border-radius: 4px; font-family: Consolas, "Courier New", monospace; }
+    pre { padding: 12px; overflow-x: auto; }
+    h1, h2, h3 { color: #0f172a; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="uso.html">Como usar</a>
+    <a href="pom.html">Instalar via pom</a>
+    <a href="faq.html">Perguntas e respostas</a>
+  </nav>
+
+  <h1>Instalar via pom</h1>
+  <p>Adicione a dependência ao seu projeto Maven e confirme o build com Java 11+. As coordenadas abaixo refletem o <code>pom.xml</code> atual.</p>
+
+  <h2>Dependência principal</h2>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.emerick&lt;/groupId&gt;
+    &lt;artifactId&gt;inline-mapper&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+  <h2>Requisitos de build</h2>
+  <ul>
+    <li>Java 11 ou superior</li>
+    <li>Maven 3.6+ (plugins de compilação, fonte e javadoc já configurados)</li>
+  </ul>
+<pre><code class="language-xml">&lt;properties&gt;
+    &lt;maven.compiler.source&gt;11&lt;/maven.compiler.source&gt;
+    &lt;maven.compiler.target&gt;11&lt;/maven.compiler.target&gt;
+&lt;/properties&gt;
+</code></pre>
+
+  <h2>Build e testes locais</h2>
+  <ol>
+    <li>Rode <code>mvn clean install</code> para compilar e instalar no seu <code>.m2</code> local.</li>
+    <li>Para testar: <code>mvn test</code>.</li>
+    <li>Para gerar artefatos assinados (quando publicar): <code>mvn clean deploy</code> com <code>settings.xml</code> configurado.</li>
+  </ol>
+
+  <h2>Publicação e credenciais</h2>
+  <ul>
+    <li>O <code>settings.xml.template</code> mostra como informar <code>SONATYPE_USERNAME</code>, <code>SONATYPE_PASSWORD</code> e <code>GPG_PASSPHRASE</code>.</li>
+    <li>Para releases, configure também <code>GPG_PRIVATE_KEY</code> nas variáveis da pipeline/CI.</li>
+    <li>Use o plugin <code>nexus-staging-maven-plugin</code> (já configurado no <code>pom.xml</code>) para fechar e liberar o staging no Sonatype.</li>
+  </ul>
+
+  <h2>Verificação rápida</h2>
+  <ul>
+    <li>Dependência resolvida? Rode <code>mvn dependency:tree</code> e confirme se <code>com.emerick:inline-mapper:0.0.1</code> aparece.</li>
+    <li>Compatibilidade de tipos? Revise <code>TYPE_SYSTEM.md</code> e <code>CONVERTER_REFERENCE.md</code> para saber quais conversores usar.</li>
+    <li>Versão errada? Atualize o valor de <code>&lt;version&gt;</code> e recompile.</li>
+  </ul>
+</body>
+</html>

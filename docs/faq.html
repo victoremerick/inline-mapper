@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perguntas e respostas</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; line-height: 1.6; color: #1f2933; }
+    a { color: #0b6efd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    nav a { margin-right: 12px; }
+    code, pre { background: #f5f7fa; padding: 2px 4px; border-radius: 4px; font-family: Consolas, "Courier New", monospace; }
+    pre { padding: 12px; overflow-x: auto; }
+    h1, h2, h3 { color: #0f172a; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="uso.html">Como usar</a>
+    <a href="pom.html">Instalar via pom</a>
+    <a href="faq.html">Perguntas e respostas</a>
+  </nav>
+
+  <h1>Perguntas e respostas (FAQ)</h1>
+
+  <p><strong>Preciso de qual versão do Java?</strong> Java 11 ou superior, conforme propriedades do <code>pom.xml</code>.</p>
+  <p><strong>Como tratar espaços extras nos campos?</strong> <code>@Column</code> usa <code>trim = true</code> por padrão. Defina <code>trim = false</code> se o espaço fizer parte do valor.</p>
+  <p><strong>O que acontece quando o valor não cabe no comprimento definido?</strong> <code>PositionalLineMapper</code> gera erro de mapeamento. Ajuste <code>length</code> ou trate o valor antes de converter.</p>
+  <p><strong>Posso mapear listas ou coleções?</strong> Sim, use <code>ListConverter</code> para listas simples e <code>@FileSegment(wildcard = true)</code> em layouts de arquivo para seções de tamanho variável.</p>
+  <p><strong>Como adicionar um novo tipo?</strong> Implemente <code>AbstractTypeConverter&lt;T&gt;</code> (veja <code>TYPE_SYSTEM.md</code>) e registre com <code>TypeConverterRegistry.register(...)</code> antes de criar o mapper.</p>
+  <p><strong>Consigo ler e gravar usando o mesmo modelo?</strong> Sim, a API é bidirecional: <code>toObject</code>/<code>toObjects</code> leem e <code>toLine</code>/<code>toLines</code> escrevem usando a mesma definição de entidade.</p>
+  <p><strong>Como lidar com datas em formatos diferentes?</strong> Registre um <code>LocalDateConverter</code> com o padrão desejado (ex.: <code>new LocalDateConverter("ddMMyyyy")</code>) ou crie um conversor customizado.</p>
+  <p><strong>Índices negativos funcionam como?</strong> Em <code>@FileSegment</code>, valores negativos contam a partir do fim do arquivo (<code>-1</code> é a última linha, <code>-2</code> é a penúltima). Excelente para rodapés e trailers.</p>
+  <p><strong>Como depurar erros de conversão?</strong> A exceção traz o campo, posição e valor original. Compare com o layout esperado e revise o <code>TypeConverter</code> associado.</p>
+  <p><strong>Onde encontrar exemplos completos?</strong> Veja <code>src/test/java/com/example/inlinemapper/example/</code> e os guias <code>TYPE_SYSTEM.md</code> e <code>DOCUMENTATION_INDEX.md</code>.</p>
+</body>
+</html>

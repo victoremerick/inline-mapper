@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inline Mapper Docs</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; line-height: 1.6; color: #1f2933; }
+    a { color: #0b6efd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    nav a { margin-right: 12px; }
+    code, pre { background: #f5f7fa; padding: 2px 4px; border-radius: 4px; font-family: Consolas, "Courier New", monospace; }
+    pre { padding: 12px; overflow-x: auto; }
+    h1, h2, h3 { color: #0f172a; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="uso.html">Como usar</a>
+    <a href="pom.html">Instalar via pom</a>
+    <a href="faq.html">Perguntas e respostas</a>
+  </nav>
+
+  <h1>Inline Mapper Docs</h1>
+  <p>Inline Mapper é uma biblioteca Java leve para converter linhas posicionais de largura fixa em objetos e gerar linhas a partir desses objetos. Este conjunto de páginas funciona como site da biblioteca, com foco em uso rápido, instalação via Maven e respostas para dúvidas comuns.</p>
+
+  <h2>Navegação rápida</h2>
+  <ul>
+    <li><a href="uso.html">Como usar</a>: passo a passo para mapear linhas e arquivos, com exemplos prontos.</li>
+    <li><a href="pom.html">Instalar via pom</a>: dependências, configuração de build e verificação rápida.</li>
+    <li><a href="faq.html">Perguntas e respostas</a>: soluções para problemas frequentes.</li>
+  </ul>
+
+  <h2>Quando usar</h2>
+  <ul>
+    <li>Precisa ler ou gerar arquivos posicionais (fixed-width) de forma tipada.</li>
+    <li>Quer anotar classes com posições e comprimentos em vez de manipular substrings manualmente.</li>
+    <li>Deseja adicionar conversores de tipos customizados sem reescrever o parsing.</li>
+  </ul>
+
+  <h2>Principais recursos</h2>
+  <ul>
+    <li>Anotações <code>@LineEntity</code> e <code>@Column</code> para mapear campos a posições fixas.</li>
+    <li>Conversores prontos (String, Integer, Long, Double, Boolean, BigDecimal, LocalDate, UUID, Enum, listas e entidades aninhadas).</li>
+    <li>Builder de layout para arquivos completos, com posições absolutas, curingas e índices negativos.</li>
+    <li>API simples para ida e volta: <code>toObject</code>, <code>toObjects</code>, <code>toLine</code>, <code>toLines</code>.</li>
+  </ul>
+
+  <h2>O que vem a seguir</h2>
+  <ul>
+    <li>Leia <strong>Como usar</strong> para ver um fluxo completo em menos de 5 minutos.</li>
+    <li>Copie o snippet de dependência em <strong>Instalar via pom</strong> e execute <code>mvn clean install</code>.</li>
+    <li>Consulte a <strong>FAQ</strong> quando aparecer alguma dúvida ou erro de conversão.</li>
+  </ul>
+</body>
+</html>
