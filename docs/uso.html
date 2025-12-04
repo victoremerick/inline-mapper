@@ -16,7 +16,7 @@
 </head>
 <body>
   <nav>
-    <a href="index.html">Início</a>
+    <a href="index.html">InÃ­cio</a>
     <a href="uso.html">Como usar</a>
     <a href="pom.html">Instalar via pom</a>
     <a href="faq.html">Perguntas e respostas</a>
@@ -27,7 +27,7 @@
 
   <h2>Fluxo essencial em 3 passos</h2>
   <ol>
-    <li>Anote a classe com <code>@LineEntity</code> e campos com <code>@Column</code> definindo posição (0-based) e tamanho fixo.</li>
+    <li>Anote a classe com <code>@LineEntity</code> e campos com <code>@Column</code> definindo posiÃ§Ã£o (0-based) e tamanho fixo.</li>
     <li>Crie o mapper com <code>PositionalLineMapper</code> (opcionalmente passando um <code>TypeConverterRegistry</code>).</li>
     <li>Converta de/para linhas com <code>toObject</code> ou <code>toLine</code>.</li>
   </ol>
@@ -54,7 +54,7 @@ Person p = mapper.toObject("John      025john@example.com   ");
 String line = mapper.toLine(p);
 </code></pre>
 
-  <h2>Trabalhando com coleções de linhas</h2>
+  <h2>Trabalhando com coleÃ§Ãµes de linhas</h2>
 <pre><code class="language-java">List&lt;String&gt; lines = List.of(
     "John      025john@example.com   ",
     "Jane      030jane@example.com   "
@@ -64,7 +64,7 @@ List&lt;String&gt; out = mapper.toLines(people);
 </code></pre>
 
   <h2>Mapeando arquivos completos</h2>
-  <p>Use <code>@FileLayout</code> e <code>@FileSegment</code> ou o builder para descrever posições absolutas, curingas e índices negativos (a partir do fim do arquivo).</p>
+  <p>Use <code>@FileLayout</code> e <code>@FileSegment</code> ou o builder para descrever posiÃ§Ãµes absolutas, curingas e Ã­ndices negativos (a partir do fim do arquivo).</p>
 <pre><code class="language-java">import annotation.com.emerick.inlinemapper.FileLayout;
 import annotation.com.emerick.inlinemapper.FileSegment;
 import mapper.com.emerick.inlinemapper.FileLayoutBuilder;
@@ -85,7 +85,7 @@ List&lt;DetailLine&gt; detailLines = result.getList("details", DetailLine.class)
 </code></pre>
 
   <h2>Converters personalizados</h2>
-  <p>Implemente <code>AbstractTypeConverter&lt;T&gt;</code> para tipos de domínio (ex.: datas em formatos próprios, moedas, identificadores).</p>
+  <p>Implemente <code>AbstractTypeConverter&lt;T&gt;</code> para tipos de domÃ­nio (ex.: datas em formatos prÃ³prios, moedas, identificadores).</p>
 <pre><code class="language-java">import converter.com.emerick.inlinemapper.AbstractTypeConverter;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -108,12 +108,12 @@ registry.register(new YearMonthConverter());
 LineMapper&lt;MyEntity&gt; mapper = new PositionalLineMapper&lt;&gt;(MyEntity.class, registry);
 </code></pre>
 
-  <h2>Boas práticas rápidas</h2>
+  <h2>Boas prÃ¡ticas rÃ¡pidas</h2>
   <ul>
-    <li>Defina comprimentos coerentes com o arquivo; sobrescreva com zeros ou espaços quando necessário.</li>
-    <li>Use <code>defaultValue</code> em <code>@Column</code> para preencher colunas vazias sem lógica extra.</li>
-    <li>Ative <code>trim</code> (default) para evitar falhas por espaços em branco; desative quando o espaço fizer parte do valor.</li>
-    <li>Separe conversores em classes reutilizáveis e registre-os em um único <code>TypeConverterRegistry</code>.</li>
+    <li>Defina comprimentos coerentes com o arquivo; sobrescreva com zeros ou espaÃ§os quando necessÃ¡rio.</li>
+    <li>Use <code>defaultValue</code> em <code>@Column</code> para preencher colunas vazias sem lÃ³gica extra.</li>
+    <li>Ative <code>trim</code> (default) para evitar falhas por espaÃ§os em branco; desative quando o espaÃ§o fizer parte do valor.</li>
+    <li>Separe conversores em classes reutilizÃ¡veis e registre-os em um Ãºnico <code>TypeConverterRegistry</code>.</li>
     <li>Em arquivos longos, prefira o builder de layout para leitura mais declarativa.</li>
   </ul>
 </body>

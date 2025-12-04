@@ -16,16 +16,16 @@
 </head>
 <body>
   <nav>
-    <a href="index.html">Início</a>
+    <a href="index.html">InÃ­cio</a>
     <a href="uso.html">Como usar</a>
     <a href="pom.html">Instalar via pom</a>
     <a href="faq.html">Perguntas e respostas</a>
   </nav>
 
   <h1>Instalar via pom</h1>
-  <p>Adicione a dependência ao seu projeto Maven e confirme o build com Java 11+. As coordenadas abaixo refletem o <code>pom.xml</code> atual.</p>
+  <p>Adicione a dependÃªncia ao seu projeto Maven e confirme o build com Java 11+. As coordenadas abaixo refletem o <code>pom.xml</code> atual.</p>
 
-  <h2>Dependência principal</h2>
+  <h2>DependÃªncia principal</h2>
 <pre><code class="language-xml">&lt;dependency&gt;
     &lt;groupId&gt;com.emerick&lt;/groupId&gt;
     &lt;artifactId&gt;inline-mapper&lt;/artifactId&gt;
@@ -36,7 +36,7 @@
   <h2>Requisitos de build</h2>
   <ul>
     <li>Java 11 ou superior</li>
-    <li>Maven 3.6+ (plugins de compilação, fonte e javadoc já configurados)</li>
+    <li>Maven 3.6+ (plugins de compilaÃ§Ã£o, fonte e javadoc jÃ¡ configurados)</li>
   </ul>
 <pre><code class="language-xml">&lt;properties&gt;
     &lt;maven.compiler.source&gt;11&lt;/maven.compiler.source&gt;
@@ -51,18 +51,18 @@
     <li>Para gerar artefatos assinados (quando publicar): <code>mvn clean deploy</code> com <code>settings.xml</code> configurado.</li>
   </ol>
 
-  <h2>Publicação e credenciais</h2>
+  <h2>PublicaÃ§Ã£o e credenciais</h2>
   <ul>
     <li>O <code>settings.xml.template</code> mostra como informar <code>SONATYPE_USERNAME</code>, <code>SONATYPE_PASSWORD</code> e <code>GPG_PASSPHRASE</code>.</li>
-    <li>Para releases, configure também <code>GPG_PRIVATE_KEY</code> nas variáveis da pipeline/CI.</li>
-    <li>Use o plugin <code>nexus-staging-maven-plugin</code> (já configurado no <code>pom.xml</code>) para fechar e liberar o staging no Sonatype.</li>
+    <li>Para releases, configure tambÃ©m <code>GPG_PRIVATE_KEY</code> nas variÃ¡veis da pipeline/CI.</li>
+    <li>Use o plugin <code>nexus-staging-maven-plugin</code> (jÃ¡ configurado no <code>pom.xml</code>) para fechar e liberar o staging no Sonatype.</li>
   </ul>
 
-  <h2>Verificação rápida</h2>
+  <h2>VerificaÃ§Ã£o rÃ¡pida</h2>
   <ul>
-    <li>Dependência resolvida? Rode <code>mvn dependency:tree</code> e confirme se <code>com.emerick:inline-mapper:0.0.1</code> aparece.</li>
+    <li>DependÃªncia resolvida? Rode <code>mvn dependency:tree</code> e confirme se <code>com.emerick:inline-mapper:0.0.1</code> aparece.</li>
     <li>Compatibilidade de tipos? Revise <code>TYPE_SYSTEM.md</code> e <code>CONVERTER_REFERENCE.md</code> para saber quais conversores usar.</li>
-    <li>Versão errada? Atualize o valor de <code>&lt;version&gt;</code> e recompile.</li>
+    <li>VersÃ£o errada? Atualize o valor de <code>&lt;version&gt;</code> e recompile.</li>
   </ul>
 </body>
 </html>

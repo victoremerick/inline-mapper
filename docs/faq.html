@@ -16,7 +16,7 @@
 </head>
 <body>
   <nav>
-    <a href="index.html">InÌcio</a>
+    <a href="index.html">In√≠cio</a>
     <a href="uso.html">Como usar</a>
     <a href="pom.html">Instalar via pom</a>
     <a href="faq.html">Perguntas e respostas</a>
@@ -24,15 +24,15 @@
 
   <h1>Perguntas e respostas (FAQ)</h1>
 
-  <p><strong>Preciso de qual vers„o do Java?</strong> Java 11 ou superior, conforme propriedades do <code>pom.xml</code>.</p>
-  <p><strong>Como tratar espaÁos extras nos campos?</strong> <code>@Column</code> usa <code>trim = true</code> por padr„o. Defina <code>trim = false</code> se o espaÁo fizer parte do valor.</p>
-  <p><strong>O que acontece quando o valor n„o cabe no comprimento definido?</strong> <code>PositionalLineMapper</code> gera erro de mapeamento. Ajuste <code>length</code> ou trate o valor antes de converter.</p>
-  <p><strong>Posso mapear listas ou coleÁıes?</strong> Sim, use <code>ListConverter</code> para listas simples e <code>@FileSegment(wildcard = true)</code> em layouts de arquivo para seÁıes de tamanho vari·vel.</p>
+  <p><strong>Preciso de qual vers√£o do Java?</strong> Java 11 ou superior, conforme propriedades do <code>pom.xml</code>.</p>
+  <p><strong>Como tratar espa√ßos extras nos campos?</strong> <code>@Column</code> usa <code>trim = true</code> por padr√£o. Defina <code>trim = false</code> se o espa√ßo fizer parte do valor.</p>
+  <p><strong>O que acontece quando o valor n√£o cabe no comprimento definido?</strong> <code>PositionalLineMapper</code> gera erro de mapeamento. Ajuste <code>length</code> ou trate o valor antes de converter.</p>
+  <p><strong>Posso mapear listas ou cole√ß√µes?</strong> Sim, use <code>ListConverter</code> para listas simples e <code>@FileSegment(wildcard = true)</code> em layouts de arquivo para se√ß√µes de tamanho vari√°vel.</p>
   <p><strong>Como adicionar um novo tipo?</strong> Implemente <code>AbstractTypeConverter&lt;T&gt;</code> (veja <code>TYPE_SYSTEM.md</code>) e registre com <code>TypeConverterRegistry.register(...)</code> antes de criar o mapper.</p>
-  <p><strong>Consigo ler e gravar usando o mesmo modelo?</strong> Sim, a API È bidirecional: <code>toObject</code>/<code>toObjects</code> leem e <code>toLine</code>/<code>toLines</code> escrevem usando a mesma definiÁ„o de entidade.</p>
-  <p><strong>Como lidar com datas em formatos diferentes?</strong> Registre um <code>LocalDateConverter</code> com o padr„o desejado (ex.: <code>new LocalDateConverter("ddMMyyyy")</code>) ou crie um conversor customizado.</p>
-  <p><strong>Õndices negativos funcionam como?</strong> Em <code>@FileSegment</code>, valores negativos contam a partir do fim do arquivo (<code>-1</code> È a ˙ltima linha, <code>-2</code> È a pen˙ltima). Excelente para rodapÈs e trailers.</p>
-  <p><strong>Como depurar erros de convers„o?</strong> A exceÁ„o traz o campo, posiÁ„o e valor original. Compare com o layout esperado e revise o <code>TypeConverter</code> associado.</p>
+  <p><strong>Consigo ler e gravar usando o mesmo modelo?</strong> Sim, a API √© bidirecional: <code>toObject</code>/<code>toObjects</code> leem e <code>toLine</code>/<code>toLines</code> escrevem usando a mesma defini√ß√£o de entidade.</p>
+  <p><strong>Como lidar com datas em formatos diferentes?</strong> Registre um <code>LocalDateConverter</code> com o padr√£o desejado (ex.: <code>new LocalDateConverter("ddMMyyyy")</code>) ou crie um conversor customizado.</p>
+  <p><strong>√çndices negativos funcionam como?</strong> Em <code>@FileSegment</code>, valores negativos contam a partir do fim do arquivo (<code>-1</code> √© a √∫ltima linha, <code>-2</code> √© a pen√∫ltima). Excelente para rodap√©s e trailers.</p>
+  <p><strong>Como depurar erros de convers√£o?</strong> A exce√ß√£o traz o campo, posi√ß√£o e valor original. Compare com o layout esperado e revise o <code>TypeConverter</code> associado.</p>
   <p><strong>Onde encontrar exemplos completos?</strong> Veja <code>src/test/java/com/example/inlinemapper/example/</code> e os guias <code>TYPE_SYSTEM.md</code> e <code>DOCUMENTATION_INDEX.md</code>.</p>
 </body>
 </html>
